@@ -110,24 +110,37 @@ export function NotesPage({ onBack }: NotesPageProps) {
   const loadNotesData = async () => {
     try {
       console.log("[v0] Loading notes data from Google Sheets...")
-      const response = await fetch(`${API_URL}?type=notes`)
 
-      if (response.ok) {
-        const data = await response.json()
-        console.log("[v0] Notes data loaded:", data)
-
-        // Separate data by type
-        const tasksData = data.filter((item: any) => item.type === "task")
-        const studentsData = data.filter((item: any) => item.type === "student")
-        const teachersData = data.filter((item: any) => item.type === "teacher")
-
-        setTasks(tasksData)
-        setStudents(studentsData)
-        setTeachers(teachersData)
+      // Load tasks
+      const tasksResponse = await fetch(`${API_URL}?type=tasks`)
+      if (tasksResponse.ok) {
+        const tasksData = await tasksResponse.json()
+        console.log("[v0] Tasks data loaded:", tasksData)
+        setTasks(Array.isArray(tasksData) ? tasksData : [])
       } else {
-        console.log("[v0] Failed to load notes data, using empty arrays")
+        console.log("[v0] Failed to load tasks data")
         setTasks([])
+      }
+
+      // Load students
+      const studentsResponse = await fetch(`${API_URL}?type=students`)
+      if (studentsResponse.ok) {
+        const studentsData = await studentsResponse.json()
+        console.log("[v0] Students data loaded:", studentsData)
+        setStudents(Array.isArray(studentsData) ? studentsData : [])
+      } else {
+        console.log("[v0] Failed to load students data")
         setStudents([])
+      }
+
+      // Load teachers
+      const teachersResponse = await fetch(`${API_URL}?type=teachers`)
+      if (teachersResponse.ok) {
+        const teachersData = await teachersResponse.json()
+        console.log("[v0] Teachers data loaded:", teachersData)
+        setTeachers(Array.isArray(teachersData) ? teachersData : [])
+      } else {
+        console.log("[v0] Failed to load teachers data")
         setTeachers([])
       }
     } catch (error) {
@@ -138,14 +151,35 @@ export function NotesPage({ onBack }: NotesPageProps) {
     }
   }
 
-  const saveToGoogleSheets = async (data: any, type: "task" | "student" | "teacher") => {
+  const saveToGoogleSheets = async (data: any, type: "tasks" | "students" | "teachers") => {
     try {
       console.log("[v0] Saving to Google Sheets:", { type, data })
 
       const formData = new URLSearchParams()
       formData.append("action", "add")
       formData.append("type", type)
-      formData.append("data", JSON.stringify(data))
+
+      if (type === "tasks") {
+        formData.append("title", data.title || "")
+        formData.append("description", data.description || "")
+        formData.append("dueDate", data.dueDate || "")
+        formData.append("priority", data.priority || "")
+        formData.append("status", data.status || "")
+      } else if (type === "students") {
+        formData.append("name", data.name || "")
+        formData.append("course", data.course || "")
+        formData.append("observations", data.observations || "")
+        formData.append("behavior", data.behavior || "")
+        formData.append("performance", data.performance || "")
+      } else if (type === "teachers") {
+        formData.append("name", data.name || "")
+        formData.append("subject", data.subject || "")
+        formData.append("meetings", data.meetings || "")
+        formData.append("agreements", data.agreements || "")
+        formData.append("observations", data.observations || "")
+      }
+
+      console.log("[v0] Form data being sent:", formData.toString())
 
       const response = await fetch(API_URL, {
         method: "POST",
@@ -155,12 +189,16 @@ export function NotesPage({ onBack }: NotesPageProps) {
         body: formData.toString(),
       })
 
+      console.log("[v0] Response status:", response.status, "ok:", response.ok)
+
       if (response.ok) {
         const result = await response.json()
         console.log("[v0] Save successful:", result)
         return result
       } else {
-        throw new Error("Failed to save to Google Sheets")
+        const errorText = await response.text()
+        console.error("[v0] Save failed with response:", errorText)
+        throw new Error(`Failed to save to Google Sheets: ${response.status}`)
       }
     } catch (error) {
       console.error("[v0] Error saving to Google Sheets:", error)
@@ -185,8 +223,10 @@ export function NotesPage({ onBack }: NotesPageProps) {
     }
 
     try {
+      console.log("[v0] Attempting to save task:", newTask)
+
       if (!editingTask) {
-        await saveToGoogleSheets(newTask, "task")
+        await saveToGoogleSheets(newTask, "tasks")
       }
 
       if (editingTask) {
@@ -236,8 +276,10 @@ export function NotesPage({ onBack }: NotesPageProps) {
     }
 
     try {
+      console.log("[v0] Attempting to save student:", newStudent)
+
       if (!editingStudent) {
-        await saveToGoogleSheets(newStudent, "student")
+        await saveToGoogleSheets(newStudent, "students")
       }
 
       if (editingStudent) {
@@ -287,8 +329,10 @@ export function NotesPage({ onBack }: NotesPageProps) {
     }
 
     try {
+      console.log("[v0] Attempting to save teacher:", newTeacher)
+
       if (!editingTeacher) {
-        await saveToGoogleSheets(newTeacher, "teacher")
+        await saveToGoogleSheets(newTeacher, "teachers")
       }
 
       if (editingTeacher) {
