@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback, type ReactNode } from "react"
+import { useState, useEffect, useCallback, useRef, type ReactNode } from "react"
 import { AppContext, getInitialState, saveState, generateId, type AppState, type SyncStatus } from "@/lib/store"
 import type { Category, Note, Reminder } from "@/lib/types"
 import { api } from "@/lib/api"
@@ -10,6 +10,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AppState>(() => getInitialState())
   const [mounted, setMounted] = useState(false)
   const { toast } = useToast()
+  const syncFunctionRef = useRef<(showToast?: boolean) => Promise<void>>(() => Promise.resolve())
+  // Track IDs already pushed to cloud to prevent double-sends (React StrictMode, tab changes, etc.)
+  const pushedToCloudRef = useRef<Set<string>>(new Set())
 
   useEffect(() => {
     setState(getInitialState())
@@ -23,7 +26,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, [state, mounted])
 
   // Sync with Google Sheets
-  const syncWithCloud = useCallback(async () => {
+  const syncWithCloud = useCallback(async (showToast = true) => {
     setState((prev) => ({ ...prev, syncStatus: "syncing" as SyncStatus, syncError: null }))
 
     try {
@@ -86,16 +89,41 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
       setState((prev) => {
         // Keep locally-created notes/reminders that aren't in the cloud yet
-        // Re-map their categoryIds to the new cloud IDs using name matching
+        // BUT exclude any that have already been pushed (their cloud version is now in cloudNotes)
         const localOnlyNotes = prev.notes
-          .filter((n) => !cloudNoteIds.has(n.id))
+          .filter((n) => {
+            // If already in cloud, skip (cloud version takes precedence)
+            if (cloudNoteIds.has(n.id)) return false
+            // If this local note was pushed to cloud, its cloud version is now in cloudNotes
+            // Match by content + category to detect duplicates
+            if (pushedToCloudRef.current.has(n.id)) {
+              const oldCat = prev.categories.find((c) => c.id === n.categoryId)
+              const catName = oldCat?.name || ""
+              const hasDuplicateInCloud = notes.some(
+                (cn) => cn.text === n.text && prev.categories.find((c) => c.id === cn.categoryId)?.name === catName
+              )
+              if (hasDuplicateInCloud) return false
+            }
+            return true
+          })
           .map((n) => {
             const oldCat = prev.categories.find((c) => c.id === n.categoryId)
             return { ...n, categoryId: oldCat ? resolveId(oldCat.name) : resolveId("") }
           })
 
         const localOnlyReminders = prev.reminders
-          .filter((r) => !cloudReminderIds.has(r.id))
+          .filter((r) => {
+            if (cloudReminderIds.has(r.id)) return false
+            if (pushedToCloudRef.current.has(r.id)) {
+              const oldCat = prev.categories.find((c) => c.id === r.categoryId)
+              const catName = oldCat?.name || ""
+              const hasDuplicateInCloud = reminders.some(
+                (cr) => cr.text === r.text && prev.categories.find((c) => c.id === cr.categoryId)?.name === catName
+              )
+              if (hasDuplicateInCloud) return false
+            }
+            return true
+          })
           .map((r) => {
             const oldCat = prev.categories.find((c) => c.id === r.categoryId)
             return { ...r, categoryId: oldCat ? resolveId(oldCat.name) : resolveId("") }
@@ -115,10 +143,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
         }
       })
 
-      toast({
-        title: "Sincronizado",
-        description: "Datos actualizados desde Google Sheets",
-      })
+      if (showToast) {
+        toast({
+          title: "Sincronizado",
+          description: "Datos actualizados desde Google Sheets",
+        })
+      }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Error de conexion"
       setState((prev) => ({
@@ -127,47 +157,75 @@ export function AppProvider({ children }: { children: ReactNode }) {
         syncError: errorMessage,
       }))
 
-      toast({
-        title: "Error de sincronizacion",
-        description: "No se pudo conectar con Google Sheets. Los datos se guardan localmente.",
-        variant: "destructive",
-      })
+      if (showToast) {
+        toast({
+          title: "Error de sincronizacion",
+          description: "No se pudo conectar con Google Sheets. Los datos se guardan localmente.",
+          variant: "destructive",
+        })
+      }
     }
-  }, [state.categories, toast])
+  }, [toast])
 
-  // Push single item to cloud
-  const pushNoteToCloud = useCallback(
-    async (note: Note, categoryName: string) => {
-      try {
-        await api.addNote({
-          content: note.text,
-          category: categoryName,
-          tags: note.tags,
-        })
-      } catch {
-        // Silent fail - data is saved locally
-      }
-    },
-    []
-  )
+  // Update ref with the actual syncWithCloud function
+  useEffect(() => {
+    syncFunctionRef.current = syncWithCloud
 
-  const pushReminderToCloud = useCallback(
-    async (reminder: Reminder, categoryName: string) => {
-      try {
-        const dateStr = reminder.dueDate.toISOString().split("T")[0]
-        const timeStr = reminder.dueDate.toTimeString().slice(0, 5)
-        await api.addReminder({
-          title: reminder.text,
-          category: categoryName,
-          date: dateStr,
-          time: timeStr,
-        })
-      } catch {
-        // Silent fail - data is saved locally
+    if (!mounted) return
+
+    // Sync immediately on mount to get latest data from cloud
+    syncWithCloud(false)
+  }, [mounted, syncWithCloud])
+
+  // Push single note to cloud — guarded by ref so it only fires once per ID even in StrictMode
+  const pushNoteToCloud = useCallback(async (localId: string, note: Note, categoryName: string) => {
+    if (pushedToCloudRef.current.has(localId)) return
+    pushedToCloudRef.current.add(localId)
+    try {
+      const result = await api.addNote({
+        content: note.text,
+        category: categoryName,
+        tags: note.tags,
+      })
+      // Replace the temporary local ID with the real cloud ID to prevent duplicates on next sync
+      const cloudId = result?.data?.note?.id ?? result?.id
+      if (cloudId && cloudId !== localId) {
+        setState((prev) => ({
+          ...prev,
+          notes: prev.notes.map((n) => n.id === localId ? { ...n, id: cloudId } : n),
+        }))
       }
-    },
-    []
-  )
+    } catch {
+      // Remove from guard on failure so a retry is possible
+      pushedToCloudRef.current.delete(localId)
+    }
+  }, [])
+
+  const pushReminderToCloud = useCallback(async (localId: string, reminder: Reminder, categoryName: string) => {
+    if (pushedToCloudRef.current.has(localId)) return
+    pushedToCloudRef.current.add(localId)
+    try {
+      const dateStr = reminder.dueDate.toISOString().split("T")[0]
+      const timeStr = reminder.dueDate.toTimeString().slice(0, 5)
+      const result = await api.addReminder({
+        title: reminder.text,
+        category: categoryName,
+        date: dateStr,
+        time: timeStr,
+      })
+      // Replace the temporary local ID with the real cloud ID to prevent duplicates on next sync
+      const cloudId = result?.data?.reminder?.id ?? result?.id
+      if (cloudId && cloudId !== localId) {
+        setState((prev) => ({
+          ...prev,
+          reminders: prev.reminders.map((r) => r.id === localId ? { ...r, id: cloudId } : r),
+        }))
+      }
+    } catch {
+      // Remove from guard on failure so a retry is possible
+      pushedToCloudRef.current.delete(localId)
+    }
+  }, [])
 
   const addCategory = useCallback((category: Omit<Category, "id">) => {
     const newCategory = { ...category, id: generateId() }
@@ -242,12 +300,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
       setState((prev) => {
         const category = prev.categories.find((c) => c.id === note.categoryId)
         if (category) {
-          pushNoteToCloud(newNote, category.name)
+          // Guard inside pushNoteToCloud ensures this only fires once even if setState runs twice
+          pushNoteToCloud(newNote.id, newNote, category.name)
         }
-        return {
-          ...prev,
-          notes: [newNote, ...prev.notes],
-        }
+        return { ...prev, notes: [newNote, ...prev.notes] }
       })
     },
     [pushNoteToCloud]
@@ -292,12 +348,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
       setState((prev) => {
         const category = prev.categories.find((c) => c.id === reminder.categoryId)
         if (category) {
-          pushReminderToCloud(newReminder, category.name)
+          // Guard inside pushReminderToCloud ensures this only fires once even if setState runs twice
+          pushReminderToCloud(newReminder.id, newReminder, category.name)
         }
-        return {
-          ...prev,
-          reminders: [newReminder, ...prev.reminders],
-        }
+        return { ...prev, reminders: [newReminder, ...prev.reminders] }
       })
     },
     [pushReminderToCloud]

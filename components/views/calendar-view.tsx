@@ -676,9 +676,9 @@ export function CalendarView() {
                       key={di}
                       onClick={() => day && setSelectedDay(isSelected ? null : day)}
                       className={cn(
-                        "min-h-[90px] p-2 relative transition-colors",
+                        "p-2 relative transition-colors flex flex-col",
                         di < 6 && "border-r",
-                        !day && "bg-muted/30",
+                        !day && "bg-muted/30 min-h-[90px]",
                         day && "cursor-pointer",
                         isToday && "bg-blue-50 dark:bg-blue-950/20",
                         isSelected && "ring-2 ring-inset ring-primary bg-primary/5",
@@ -695,9 +695,9 @@ export function CalendarView() {
                         )}>{day}</span>
                       )}
 
-                      {/* Event pills */}
-                      <div className="mt-1 space-y-0.5 overflow-visible">
-                        {dayEvents.slice(0, 3).map((ev) => (
+                      {/* Event pills - Expand container to show all */}
+                      <div className="mt-1 space-y-0.5">
+                        {dayEvents.map((ev) => (
                           <EventPill
                             key={ev.item.id}
                             ev={ev}
@@ -705,11 +705,6 @@ export function CalendarView() {
                             onEdit={(e) => { setEditingEvent(e) }}
                           />
                         ))}
-                        {dayEvents.length > 3 && (
-                          <p className="text-[10px] text-muted-foreground pl-1">
-                            +{dayEvents.length - 3} más
-                          </p>
-                        )}
                       </div>
                     </div>
                   )
