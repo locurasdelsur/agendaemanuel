@@ -1,0 +1,726 @@
+{
+  "categories": [
+    {
+      "id": "2c402b5b-aa86-4211-9e78-51366fc2becb",
+      "name": "1° Año",
+      "color": "#22c55e"
+    },
+    {
+      "id": "4cf29c21-d685-4a86-a3aa-ac4565bf5c94",
+      "name": "2° Año",
+      "color": "#3b82f6"
+    },
+    {
+      "id": "259df273-625c-417b-a25d-3f0900c469b6",
+      "name": "3° Año",
+      "color": "#f59e0b"
+    },
+    {
+      "id": "6ca42b26-f2e2-466c-a569-7516f0efef54",
+      "name": "4° Año",
+      "color": "#ef4444"
+    },
+    {
+      "id": "f2509f48-e475-4f42-96a3-ca82799d2a91",
+      "name": "5° Año",
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "7a9575a9-58c6-4cbb-becb-ba7f68bf4fc9",
+      "name": "6° Año",
+      "color": "#06b6d4"
+    },
+    {
+      "id": "a3637348-695b-4420-9f69-a114757e681f",
+      "name": "7° Año",
+      "color": "#ec4899"
+    },
+    {
+      "id": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "name": "General",
+      "color": "#6b7280"
+    }
+  ],
+  "notes": [
+    {
+      "id": "moge0f5ar6c5v0h375g",
+      "text": "[Rios Fiorella - 4° 1]\nObservar como se desempeña",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [
+        "4° 1"
+      ],
+      "createdAt": "2025-09-17T19:41:19.973Z",
+      "updatedAt": "2025-09-17T19:41:19.973Z"
+    },
+    {
+      "id": "moge0f5a4tnyio4kfv6",
+      "text": "[Morrone Benjamín - 2° 1]\nObservar su salud (ojos)",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [
+        "2° 1"
+      ],
+      "createdAt": "2025-09-17T19:41:58.945Z",
+      "updatedAt": "2025-09-17T19:41:58.945Z"
+    },
+    {
+      "id": "moge0f5a4spj060g6v",
+      "text": "[Díaz Bautista - 5° 2]\nNo esta yendo a recursar",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [
+        "5° 2"
+      ],
+      "createdAt": "2025-09-17T19:45:37.282Z",
+      "updatedAt": "2025-09-17T19:45:37.282Z"
+    },
+    {
+      "id": "moge0f5ajf5co8ur6pm",
+      "text": "[Molinelli Angel - 5° 2]\nNo esta yendo a recursar",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [
+        "5° 2"
+      ],
+      "createdAt": "2025-09-17T19:46:21.121Z",
+      "updatedAt": "2025-09-17T19:46:21.121Z"
+    },
+    {
+      "id": "moge0f5a4grncc6wfgu",
+      "text": "[Liz Rios Pereyra - 1° 5]\nTiene inconvenientes con la profe de Naturales y Lenguajes tecnológicos. Se reunió gabinete con la madre.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [
+        "1° 5"
+      ],
+      "createdAt": "2025-09-17T19:47:57.095Z",
+      "updatedAt": "2025-09-17T19:47:57.095Z"
+    },
+    {
+      "id": "moge0f5a6b28uj3h9mk",
+      "text": "[CENTURION GUILLERMO ALEJANDRO - 2° 4]\nSe envió nota a los docentes para que realicen dispositivo virtual que facilite la cursada, ya que el alumno no puede bajar escaleras y en la casa tiene escaleras.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [
+        "2° 4"
+      ],
+      "createdAt": "2025-09-26T13:21:01.687Z",
+      "updatedAt": "2025-09-26T13:21:01.687Z"
+    },
+    {
+      "id": "moge0f5algpr8fmu73k",
+      "text": "[MANUEL POLINA VERNARELLI - 2° 5]\nSe envió nota a los docentes sobre dispositivo virtual en virtud de la patología del alumno.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [
+        "2° 5"
+      ],
+      "createdAt": "2025-09-26T13:23:58.553Z",
+      "updatedAt": "2025-09-26T13:23:58.553Z"
+    },
+    {
+      "id": "moge0f5eb4b9y1jfgeg",
+      "text": "[Potel Joaquín]\nSe llamó a la madre de Joaquín Potel de 2° 1° para hablar sobre el desempeño del alumno, sumado a la nota dejada por la profe de artística que indicaba que el alumno vendía cosas de un videojuego a compañeros. La madre dijo saber y que estaba trabajando con el padre y el psicólogo del alumno. Además, se habló de las malas calificaciones del alumno.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-08-21T00:00:00.000Z",
+      "updatedAt": "2025-08-21T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5ebr4hlh7diii",
+      "text": "[Naveira Anaquin Andres]\nLlame y hable con la madre de Andres Naveiras de 4° 2°, por las faltas y porque no firman la libreta. La madre afirma que discutió con el alumno porque está fumando y ya no sabe qué hacer para que haga caso.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-08-21T00:00:00.000Z",
+      "updatedAt": "2025-08-21T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5erpyopz9hbqr",
+      "text": "[Charla con Elisabet y EOE]\nFigueroa Ignacio 4° 2. Las Hermanas Gomez 3° 4 Matemática preparar. Brito 5° 1 Compañeros le hacen Bullyng. Garcete 6° 1 Engaño la novia seguir. Muñoz Máxima 1° 5 Estuvo bien en las charlas y está trabajando con el Psicólogo.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-08-28T00:00:00.000Z",
+      "updatedAt": "2025-08-28T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fg2eugl20zs5",
+      "text": "[Engelbrecht Benjamin]\nMe comuniqué por llamada telefónica el 8/5/25, la madre se comprometió a venir a la escuela.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2024-05-08T00:00:00.000Z",
+      "updatedAt": "2024-05-08T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fm3q968feays",
+      "text": "[Ojeda Nicolás 22 Inasistencias]\nMe comuniqué con la madre por llamada telefónica, la madre se compromete a venir a la escuela.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-05-23T00:00:00.000Z",
+      "updatedAt": "2025-05-23T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fc334xated9w",
+      "text": "[Castro Víctor 6° 1 15 inasistencia]\nMe comuniqué con la madre el día 23/25 por llamada telefónica, la madre se compromete a venir a la escuela.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-05-23T00:00:00.000Z",
+      "updatedAt": "2025-05-23T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fdiywjrrxx6j",
+      "text": "[Gomez, Rebeca 3° 4 Inasistencia]\n17 1/2 al 7/7: 30. Madre Firmó Acta. Va a pensar la posibilidad de cambiarla de escuela. Vive en C.A.B.A.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-05-14T00:00:00.000Z",
+      "updatedAt": "2025-05-14T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5f1tchrii5m38",
+      "text": "[Ojeda Teo 3° 1 Inasistencia]\n20 1/2. Nadia Jardel envió mail.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-05-28T00:00:00.000Z",
+      "updatedAt": "2025-05-28T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fhm49x8f50ab",
+      "text": "[Díaz Mateo 3° 4 Inasistencias]\n15 inasistencias. Mail 28/5 - 29/5 Nadia habló con el papá. Pedí mail nuevo y que pasen a firmar acta. 02/06 firmó el acta la mamá. Tiene problemas de alergias y por eso tantas inasistencias.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-08-29T00:00:00.000Z",
+      "updatedAt": "2025-08-29T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fcxzidq1qfmm",
+      "text": "[Androchuk, Tiziano 5° 1 Inasistencia]\n19 3/4. Asprea Silvana envió mensaje, cuaderno y mail. Vendrán el lunes 9/6 a Firmar acta.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-05-25T00:00:00.000Z",
+      "updatedAt": "2025-05-25T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fngemljqvh8d",
+      "text": "[Ahumada, Demian 5° 1 Inasistencias]\n15 1/2. Asprea Silvana envió mail, por teléfono no contestan.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-06-06T00:00:00.000Z",
+      "updatedAt": "2025-06-06T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fhlmwws7hu5k",
+      "text": "[Alberio, Patricio 6° 1 Inasistencia]\n15 1/2. Asprea Silvana envió nota al cuaderno y un mail.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-06-06T00:00:00.000Z",
+      "updatedAt": "2025-06-06T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5f59ljxv5y0e2",
+      "text": "[De Salvó, Alan 5° 1 Inasistencia]\n12,1/2. Asprea Silvana envió nota al cuaderno y un mail.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-06-05T00:00:00.000Z",
+      "updatedAt": "2025-06-05T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fuexw7ghiir",
+      "text": "[Fassolo Alvaro 5° 1 Inasistencia]\n12,1/2. Asprea Silvana envió nota en el cuaderno y un mail.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-06-06T00:00:00.000Z",
+      "updatedAt": "2025-06-06T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fpnp4gcppq9",
+      "text": "[Gabriele, Joaquín 6° 1 Inasistencia]\n13 1/2. Asprea Silvana envió nota en el cuaderno y un mail.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-06-06T00:00:00.000Z",
+      "updatedAt": "2025-06-06T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fdiudn79zeze",
+      "text": "[Lovera, Bautista 5° 1 Inasistencia]\n14 1/2. Asprea Silvana envió nota en el cuaderno y un mail.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-06-06T00:00:00.000Z",
+      "updatedAt": "2025-06-06T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fcmrbn9k9mms",
+      "text": "[Zabala Joaquín 5° 1 Inasistencia]\n14. Asprea Silvana envió nota en el cuaderno y un mail. El alumno estuvo internado por Neumonía.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-06-06T00:00:00.000Z",
+      "updatedAt": "2025-06-06T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fte4pojxlpb8",
+      "text": "[González Sotelo, 5° 1 inasistencia]\n13. Asprea Silvana envió nota en el cuaderno y un mail.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-06-06T00:00:00.000Z",
+      "updatedAt": "2025-06-06T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fycv093c8o2",
+      "text": "[Delgado Sandoval, Martin 1° 5 Inasistencia]\n17 1/2. Medina, Nahia envió Email y whatsapp.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-06-06T00:00:00.000Z",
+      "updatedAt": "2025-06-06T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fvmo8sae2ob9",
+      "text": "[Esquivel, Brunella 1° 5 Inasistencia]\n9 1/2. Medina, Nahia envió Email.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-06-06T00:00:00.000Z",
+      "updatedAt": "2025-06-06T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5f2nl44jxumu",
+      "text": "[Rios Pereyra, Liz 1° 5 inasistencia]\n12. Medina, Nahia envió Email.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-06-06T00:00:00.000Z",
+      "updatedAt": "2025-06-06T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fbp8d1wwb2r",
+      "text": "[Ginto, Ian 2° 1 inasistencia]\n11 1/2. Medina, Nahia Envió Email.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-06-06T00:00:00.000Z",
+      "updatedAt": "2025-06-06T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fpceavaep3e",
+      "text": "[Miranda, Esperanza 2° 1 inasistencia]\n22. Medina, Nahia envió Email.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-06-06T00:00:00.000Z",
+      "updatedAt": "2025-06-06T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fwmx9148c8b",
+      "text": "[Morrone, Benjamin 2° 1 Inasistencia]\n20 1/2. Medina, Nahia envió Email.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-06-06T00:00:00.000Z",
+      "updatedAt": "2025-06-06T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5futcxor1yjhl",
+      "text": "[Almeida, Lucila 2° 4 Inasistencia]\n11. Medina, Nahia envió email.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-06-06T00:00:00.000Z",
+      "updatedAt": "2025-06-06T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fjsy8agcmm8l",
+      "text": "[Ayala, Ian 2° 4° Inasistencias]\n12. Medina, Nahia envió email.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-06-06T00:00:00.000Z",
+      "updatedAt": "2025-06-06T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fuewq66v295",
+      "text": "[Brizola Urunaga, Ian 2° 4 Inasistencia]\n15 1/2. Medina, Nahia envió Email.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-06-06T00:00:00.000Z",
+      "updatedAt": "2025-06-06T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5f34iepo7ekp4",
+      "text": "[Castro Etchecopar, Maira 2° 4 Inasistencia]\n12. Medina, Nahia envió Email.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-06-06T00:00:00.000Z",
+      "updatedAt": "2025-06-06T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fy1n97iimkt",
+      "text": "[RENNER Benjamin 6° 1]\nSe habló con el padre sobre las faltas, el rendimiento y la actitud del hijo. El mismo acusó que va a tener una conversación con el hijo.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-08-29T00:00:00.000Z",
+      "updatedAt": "2025-08-29T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5f8huw90ssxyw",
+      "text": "[Riquelme Fabricio 6° 1 Inasistencias]\n21 inasistencias. Edith habló con la madre y dice que se queda en la casa ayudándole con los hermanos.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-08-22T00:00:00.000Z",
+      "updatedAt": "2025-08-22T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5f7ei4r2id1ar",
+      "text": "[Garcete 6° 1]\nSe habló con el alumno, dice estar mejor y que fue a psicólogo.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-08-29T00:00:00.000Z",
+      "updatedAt": "2025-08-29T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fpo415dm4wx8",
+      "text": "[Fabricio Riquelme 6° 1]\nSe habló con la familia sobre las faltas y la situación académica del alumno. Se llamó al alumno y se comprometió a revertir la situación. En cuanto a las faltas la familia admite que en ocasiones falta por una cuestión de organización familiar (cuida a su hermanita).",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-08-29T00:00:00.000Z",
+      "updatedAt": "2025-08-29T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fh9k2qqvfxfa",
+      "text": "[Perzano Ezequiel 6° 1]\nSe habló con la familia sobre las faltas y la situación académica del alumno. Se llamó al alumno y se comprometió a revertir la situación.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-08-29T00:00:00.000Z",
+      "updatedAt": "2025-08-29T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5ffzc0bvfoji9",
+      "text": "[Boggini Agustín 7° 7 Inasistencias]\n23 1/2 inasistencias. Se llamo a la familia, 1 numero dice que es un abonado sin servicio. Al numero 1523629186 no atiende nadie.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-08-29T00:00:00.000Z",
+      "updatedAt": "2025-08-29T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5f8wzifolbhns",
+      "text": "[Cabello Franco 7° 1 Inasistencias]\n48 inasistencias. El alumno vive con su padre en Glew. Según la madre el alumno no quiere cursar más escuela técnica.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-08-29T00:00:00.000Z",
+      "updatedAt": "2025-08-29T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fcv6dnmihw46",
+      "text": "[Cabello Franco 7° 7 Inasistencias]\n48 inasistencias. El alumno vive con su padre en Glew. Según la madre el alumno no quiere cursar más escuela técnica.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-09-28T00:00:00.000Z",
+      "updatedAt": "2025-09-28T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fptafj8pq1gp",
+      "text": "[Llana Hector 7° 7 Inasistencias]\nTel: 1553783259. Se llama y cuando se dice que es del colegio cortan. Luego directamente buzón de voz.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-08-29T00:00:00.000Z",
+      "updatedAt": "2025-08-29T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fid67xvzmvx",
+      "text": "[Ruiz Díaz Jonathan Inasistencia]\nLa mamá vino a firmar boletín el 21/8 y comentó que no tiene ganas de asistir. Post charla el alumno asiste pero de forma irregular.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-08-29T00:00:00.000Z",
+      "updatedAt": "2025-08-29T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fissemb8ycg",
+      "text": "[Baranda Esteban 7° 1 Inasistencias]\nNo concurre desde julio. Se habló con la madre. Se acercan el miércoles para dialogar sobre la situación del alumno.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-08-29T00:00:00.000Z",
+      "updatedAt": "2025-08-29T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fsrcqyrjj27j",
+      "text": "[Haedo Ximena 7° 1 Inasistencias]\nSe llamó a la casa, la familia no sabía que la alumna no concurría desde 17 de agosto.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-08-29T00:00:00.000Z",
+      "updatedAt": "2025-08-29T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5feyw4qput4ef",
+      "text": "[Castro Victor Inasistencia]\nEstá en una pasantía. En la semana viene, se acerca la madre.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-09-05T00:00:00.000Z",
+      "updatedAt": "2025-09-05T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fwbmm5shooxh",
+      "text": "[Ojeda Nicolas Inasistencias 6° 1]\nSe llamó pero no atienden.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-09-05T00:00:00.000Z",
+      "updatedAt": "2025-09-05T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fhxhnx3wnnu",
+      "text": "[Riquelme Fabricio Inasistencias]\nSe llama a la casa porque el alumno no asistió en toda la semana. Los padres no sabían.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-09-05T00:00:00.000Z",
+      "updatedAt": "2025-09-05T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fyxvyd7agfz9",
+      "text": "[4° 2da Ramiro Moreno]\nLlamé por nota en el cuaderno pidiendo reunión. Vienen el miércoles 18:30.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-09-19T00:00:00.000Z",
+      "updatedAt": "2025-09-19T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fs9zmaa9hln",
+      "text": "[Díaz Bautista Notas y Materias a recursar]\nSe volvió a llamar, no vinieron porque sufrieron la muerte del padre de la madre. Se acordó que pasan miércoles y jueves de la semana que viene.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-09-19T00:00:00.000Z",
+      "updatedAt": "2025-09-19T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fx668bsee99r",
+      "text": "[Castro Victor]\nSigue sin venir, la madre se comprometió a venir esta semana.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-09-08T00:00:00.000Z",
+      "updatedAt": "2025-09-08T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fl5ehpdf114k",
+      "text": "[CENTURION GUILLERMO ALEJANDRO 2° 4]\nSe envió nota a los docentes sobre dispositivo virtual.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-09-26T00:00:00.000Z",
+      "updatedAt": "2025-09-26T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fbchhqb2b6h",
+      "text": "[MANUEL POLINA VERNARELLI 2° 5]\nSe envió nota a los docentes sobre dispositivo virtual.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-09-26T00:00:00.000Z",
+      "updatedAt": "2025-09-26T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fp6lpwe5t8gr",
+      "text": "[Miglioretti]\nSe habló con la mamá por ausencias y porque cursaba una materia que no debía cursar.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-10-03T00:00:00.000Z",
+      "updatedAt": "2025-10-03T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fqyp7z0gujfr",
+      "text": "[Lopez Murillo 5° 1]\nMuchas faltas, el padre sabe y es porque se queda dormido. Viven solos ambos al estar separados y se está tratando de acostumbrar a que el alumno haga caso.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-11-17T00:00:00.000Z",
+      "updatedAt": "2025-11-17T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5f55kuap8r2gc",
+      "text": "[Castro Victor]\nSe realizó una reunión con la madre, se comprometió a que el alumno asista.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-11-12T00:00:00.000Z",
+      "updatedAt": "2025-11-12T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fsh4himiowy",
+      "text": "[Dominguez Lautaro 6° 2]\nSe realizó una reunión con la madre, se comprometió a que el alumno asista.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-11-12T00:00:00.000Z",
+      "updatedAt": "2025-11-12T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fw4txkxlb14l",
+      "text": "[Díaz Dante 4° 2]\nSe realizó una reunión con la madre, se comprometió a que el alumno asista.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-11-17T00:00:00.000Z",
+      "updatedAt": "2025-11-17T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fen5m7pqga9g",
+      "text": "[Nuñez Thiago 6° 7]\nSe realizó una reunión con el Padre, se comprometió a que el alumno asista.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-11-13T00:00:00.000Z",
+      "updatedAt": "2025-11-13T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5f2ij31x3xcwt",
+      "text": "[Androchuk Tiziano 5° 7]\nSe realizó una reunión con la madre, se comprometió a que el alumno asista.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-11-14T00:00:00.000Z",
+      "updatedAt": "2025-11-14T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fb2oelnytxgn",
+      "text": "[Androchuk Tomas 5° 3]\nSe realizó una reunión con la madre, se comprometió a que el alumno asista.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-11-14T00:00:00.000Z",
+      "updatedAt": "2025-11-14T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5f9xaj31qh1t",
+      "text": "[Cisneros Mirko 5° 7]\nSe realizó una reunión con la madre, se comprometió a que el alumno asista.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-11-26T00:00:00.000Z",
+      "updatedAt": "2025-11-26T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fwvy1elr0pcj",
+      "text": "[Llana Hector 7° 7]\nNo contestan.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-09-26T00:00:00.000Z",
+      "updatedAt": "2025-09-26T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5ffjyfrmlfier",
+      "text": "[Llana Hector 7° 7]\nNo contestan.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-10-03T00:00:00.000Z",
+      "updatedAt": "2025-10-03T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5f161ndd7cu3z",
+      "text": "[Llana Hector 7° 7]\nLlamé, no atienden.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-09-14T00:00:00.000Z",
+      "updatedAt": "2025-09-14T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fsf3zufmi7d",
+      "text": "[Llana Hector 7° 7]\nLlamé pero no atienden.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-11-14T00:00:00.000Z",
+      "updatedAt": "2025-11-14T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fojwi3zr7x9b",
+      "text": "[Ojeda Nicolas continua sin comunicación]\nSe realizó una reunión con la madre, se comprometió a que el alumno asista.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-07-19T00:00:00.000Z",
+      "updatedAt": "2025-07-19T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5f7ub3q1dvkjg",
+      "text": "[Ojeda Nicolás]\nLlamamos y se comprometen a venir a hablar a la institución.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-11-12T00:00:00.000Z",
+      "updatedAt": "2025-11-12T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fjh4b9f4stzh",
+      "text": "[Ojeda Nicolas]\nLlamamos pero no nos atienden.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2025-12-26T00:00:00.000Z",
+      "updatedAt": "2025-12-26T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5favgrekctx0f",
+      "text": "[Persano 6° 1]\nSe estuvo haciendo estudios médicos porque tiene problemas de riñones, mañana viene y la mamá manda todo por cuaderno de comunicaciones.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2026-04-14T00:00:00.000Z",
+      "updatedAt": "2026-04-14T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5ffolm0v8kmu",
+      "text": "[DIAZ SEBASTIAN AGUSTIN 6° 1]\nEl alumno tiene licencia por quebradura, 30 días.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2026-04-14T00:00:00.000Z",
+      "updatedAt": "2026-04-14T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5ft5ln7tvknlf",
+      "text": "[DIAZ BAUTISTA NAHUEL 6° 7ma]\nSe llamó para que firmen el acta, la madre se comprometió a venir el jueves.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2026-04-14T00:00:00.000Z",
+      "updatedAt": "2026-04-14T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fardy1fjigtd",
+      "text": "[Castro Victor 7° 7]\nVino la madre a hablar, el alumno está trabajando en un taller mecánico y decidió no continuar con sus estudios.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2026-04-17T00:00:00.000Z",
+      "updatedAt": "2026-04-17T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5f5tdb6ap1tk9",
+      "text": "[Díaz Sebastián 6° 1]\nSe acercó la mamá, el alumno tiene 30 días más por la quebradura.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2026-04-16T00:00:00.000Z",
+      "updatedAt": "2026-04-16T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fo2pq29kglsg",
+      "text": "[NAVEYRA ANAQUIN ANDRES 5° 7]\nLlamé nuevamente a los padres y no me atienden.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2026-04-22T00:00:00.000Z",
+      "updatedAt": "2026-04-22T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fxrzkqf29ge",
+      "text": "[LOPEZ MURILLO MATHEO 6° 1]\nSe acercan a firmar el acta el viernes.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2026-04-22T00:00:00.000Z",
+      "updatedAt": "2026-04-22T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fcvjps4hjejo",
+      "text": "[LOVERA BAUTISTA GABRIEL 6° 1]\nSe acercan el viernes a firmar el acta.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2026-04-22T00:00:00.000Z",
+      "updatedAt": "2026-04-22T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fmd9bb6omgq",
+      "text": "[DIAZ BAUTISTA NAHUEL 6° 7]\nSe volvió a llamar, la madre se comprometió a venir mañana a la mañana.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2026-04-22T00:00:00.000Z",
+      "updatedAt": "2026-04-22T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5f45gp8tsp1q",
+      "text": "[Riquelme FABRICIO 7° 1]\nSe comprometieron a asistir el viernes a firmar el acta.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2026-04-22T00:00:00.000Z",
+      "updatedAt": "2026-04-22T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5ffjvlkndp3gu",
+      "text": "[Zuccolini Ibarra Lis 7° 7]\nNo vienen a firmar el acta, la alumna dice que se encuentra sola porque la madre está de viaje.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2026-04-10T00:00:00.000Z",
+      "updatedAt": "2026-04-10T00:00:00.000Z"
+    },
+    {
+      "id": "moge0f5fmrpi5m41z0d",
+      "text": "[Zuccolini Ibarra Lis 7° 7]\nSe llama al celular de la madre y continúa sin respuesta.",
+      "categoryId": "d350a555-0193-4fe5-bfaf-4e3c7d6264c1",
+      "tags": [],
+      "createdAt": "2026-04-22T00:00:00.000Z",
+      "updatedAt": "2026-04-22T00:00:00.000Z"
+    }
+  ],
+  "reminders": [],
+  "lastSyncedAt": "2026-04-26T23:16:19.251Z"
+}
