@@ -1,81 +1,87 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Updated color tokens for educational theme */
-  --background: #ffffff;
-  --foreground: #1f2937;
-  --card: #f1f5f9;
-  --card-foreground: #374151;
-  --popover: #ffffff;
-  --popover-foreground: #1f2937;
-  --primary: #1f2937;
-  --primary-foreground: #ffffff;
-  --secondary: #8b5cf6;
-  --secondary-foreground: #ffffff;
-  --muted: #f1f5f9;
-  --muted-foreground: #6b7280;
-  --accent: #8b5cf6;
-  --accent-foreground: #ffffff;
-  --destructive: #dc2626;
-  --destructive-foreground: #ffffff;
-  --border: #e5e7eb;
-  --input: #f1f5f9;
-  --ring: rgba(139, 92, 246, 0.5);
-  --chart-1: #f59e0b;
-  --chart-2: #dc2626;
-  --chart-3: #1f2937;
-  --chart-4: #8b5cf6;
-  --chart-5: #ea580c;
-  --radius: 0.5rem;
-  --sidebar: #f1f5f9;
-  --sidebar-foreground: #374151;
-  --sidebar-primary: #1f2937;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #8b5cf6;
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #e5e7eb;
-  --sidebar-ring: rgba(139, 92, 246, 0.5);
+  --background: oklch(0.98 0.005 120);
+  --foreground: oklch(0.2 0.02 145);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2 0.02 145);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0.02 145);
+  --primary: oklch(0.45 0.15 145);
+  --primary-foreground: oklch(0.98 0.02 95);
+  --secondary: oklch(0.92 0.03 95);
+  --secondary-foreground: oklch(0.3 0.05 145);
+  --muted: oklch(0.95 0.01 120);
+  --muted-foreground: oklch(0.45 0.02 145);
+  --accent: oklch(0.85 0.15 95);
+  --accent-foreground: oklch(0.25 0.05 145);
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.88 0.02 120);
+  --input: oklch(0.92 0.01 120);
+  --ring: oklch(0.45 0.15 145);
+  --chart-1: oklch(0.45 0.15 145);
+  --chart-2: oklch(0.85 0.15 95);
+  --chart-3: oklch(0.55 0.12 145);
+  --chart-4: oklch(0.75 0.12 95);
+  --chart-5: oklch(0.65 0.1 145);
+  --radius: 0.75rem;
+  --sidebar: oklch(0.35 0.12 145);
+  --sidebar-foreground: oklch(0.98 0.02 95);
+  --sidebar-primary: oklch(0.85 0.15 95);
+  --sidebar-primary-foreground: oklch(0.25 0.05 145);
+  --sidebar-accent: oklch(0.42 0.12 145);
+  --sidebar-accent-foreground: oklch(0.98 0.02 95);
+  --sidebar-border: oklch(0.4 0.1 145);
+  --sidebar-ring: oklch(0.85 0.15 95);
+  
+  --warning: oklch(0.85 0.15 85);
+  --warning-foreground: oklch(0.3 0.08 85);
+  --success: oklch(0.6 0.15 145);
+  --success-foreground: oklch(0.98 0 0);
 }
 
 .dark {
-  --background: #0f172a;
-  --foreground: #f8fafc;
-  --card: #1e293b;
-  --card-foreground: #f8fafc;
-  --popover: #1e293b;
-  --popover-foreground: #f8fafc;
-  --primary: #f8fafc;
-  --primary-foreground: #0f172a;
-  --secondary: #8b5cf6;
-  --secondary-foreground: #ffffff;
-  --muted: #334155;
-  --muted-foreground: #94a3b8;
-  --accent: #8b5cf6;
-  --accent-foreground: #ffffff;
-  --destructive: #dc2626;
-  --destructive-foreground: #ffffff;
-  --border: #334155;
-  --input: #1e293b;
-  --ring: rgba(139, 92, 246, 0.5);
-  --chart-1: #f59e0b;
-  --chart-2: #dc2626;
-  --chart-3: #f8fafc;
-  --chart-4: #8b5cf6;
-  --chart-5: #ea580c;
-  --sidebar: #1e293b;
-  --sidebar-foreground: #f8fafc;
-  --sidebar-primary: #8b5cf6;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #334155;
-  --sidebar-accent-foreground: #f8fafc;
-  --sidebar-border: #334155;
-  --sidebar-ring: rgba(139, 92, 246, 0.5);
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.145 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.145 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --border: oklch(0.269 0 0);
+  --input: oklch(0.269 0 0);
+  --ring: oklch(0.439 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.439 0 0);
 }
 
 @theme inline {
+  --font-sans: 'Geist', 'Geist Fallback';
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -112,58 +118,6 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-}
-
-/* Added educational-specific color classes */
-.priority-high {
-  background-color: #dc2626;
-  color: white;
-}
-
-.priority-medium {
-  background-color: #f59e0b;
-  color: white;
-}
-
-.priority-low {
-  background-color: #10b981;
-  color: white;
-}
-
-.status-pending {
-  background-color: #6b7280;
-  color: white;
-}
-
-.status-in-progress {
-  background-color: #8b5cf6;
-  color: white;
-}
-
-.status-completed {
-  background-color: #10b981;
-  color: white;
-}
-
-/* Added category-specific color classes for events */
-.category-alumnos {
-  background-color: #f59e0b;
-  color: white;
-}
-
-.category-docentes {
-  background-color: #8b5cf6;
-  color: white;
-}
-
-.category-presentaciones {
-  background-color: #1f2937;
-  color: white;
-}
-
-.category-otros {
-  background-color: #10b981;
-  color: white;
 }
 
 @layer base {
