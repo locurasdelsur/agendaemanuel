@@ -267,7 +267,6 @@ export function AppSidebar() {
     updateCategory,
     deleteCategory,
     reorderCategories,
-    syncWithCloud,
   } = useApp()
 
   const [isAddOpen, setIsAddOpen] = useState(false)
@@ -407,10 +406,7 @@ export function AppSidebar() {
           {/* "All categories" button */}
           <button
             type="button"
-            onClick={() => {
-              setSelectedCategory(null)
-              syncWithCloud(false)
-            }}
+            onClick={() => setSelectedCategory(null)}
             className={cn(
               "w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
               selectedCategoryId === null
@@ -444,10 +440,7 @@ export function AppSidebar() {
                         isSelected={selectedCategoryId === category.id}
                         isEditing={editingId === category.id}
                         editName={editName}
-                        onSelect={() => {
-                          setSelectedCategory(category.id)
-                          syncWithCloud(false)
-                        }}
+                        onSelect={() => setSelectedCategory(category.id)}
                         onStartEdit={() => startEditing(category.id, category.name)}
                         onSaveEdit={() => saveEdit(category.id)}
                         onCancelEdit={cancelEdit}
@@ -473,10 +466,7 @@ export function AppSidebar() {
                               isEditing={editingId === child.id}
                               editName={editName}
                               indent
-                              onSelect={() => {
-                                setSelectedCategory(child.id)
-                                syncWithCloud(false)
-                              }}
+                              onSelect={() => setSelectedCategory(child.id)}
                               onStartEdit={() => startEditing(child.id, child.name)}
                               onSaveEdit={() => saveEdit(child.id)}
                               onCancelEdit={cancelEdit}

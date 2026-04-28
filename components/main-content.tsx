@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { CalendarDays, Folder, BarChart3, Menu, Calendar, Download, History } from "lucide-react"
 import { SearchBar } from "@/components/search-bar"
 import { QuickAdd } from "@/components/quick-add"
@@ -14,19 +14,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { AppSidebar } from "@/components/app-sidebar"
-import { useApp } from "@/lib/store"
 
 type ViewType = "today" | "courses" | "dashboard" | "calendar" | "import-export" | "history"
 
 export function MainContent() {
   const [activeView, setActiveView] = useState<ViewType>("today")
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const { syncWithCloud } = useApp()
-
-  // Sync data when switching tabs
-  useEffect(() => {
-    syncWithCloud(false)
-  }, [activeView, syncWithCloud])
 
   return (
     <div className="flex-1 flex flex-col h-full overflow-hidden">

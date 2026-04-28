@@ -38,16 +38,29 @@ export function AppProvider({ children }: { children: ReactNode }) {
       ])
 
       // Build category list from cloud first (source of truth for IDs)
-      const categories: Category[] = (Array.isArray(cloudCategories) ? cloudCategories : []).map((c) => ({
+      const cloudCategoryList: Category[] = (Array.isArray(cloudCategories) ? cloudCategories : []).map((c) => ({
         id: c.id,
         name: c.name,
         color: c.color,
       }))
 
+      // Merge cloud categories with local ones (subcategories like "3° 5" only exist locally)
+      // Use a Map to avoid duplicates: cloud categories take precedence by name
+      const categoryMap = new Map<string, Category>()
+      // Add local categories first (may include subcategories)
+      for (const lc of state.categories) {
+        categoryMap.set(lc.name.toLowerCase().trim(), lc)
+      }
+      // Overwrite with cloud categories (these have correct cloud IDs)
+      for (const cc of cloudCategoryList) {
+        categoryMap.set(cc.name.toLowerCase().trim(), cc)
+      }
+      const categories = Array.from(categoryMap.values())
+
       // Helper: resolve a category name to an ID, falling back to "general"
       const resolveId = (categoryName: string): string => {
         const lower = (categoryName || "").toLowerCase().trim()
-        // Try exact match on cloud categories first
+        // Try exact match first
         const exact = categories.find((c) => c.name.toLowerCase().trim() === lower)
         if (exact) return exact.id
         // Try partial match
@@ -95,13 +108,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
             // If already in cloud, skip (cloud version takes precedence)
             if (cloudNoteIds.has(n.id)) return false
             // If this local note was pushed to cloud, its cloud version is now in cloudNotes
-            // Match by content + category to detect duplicates
+            // Match by content only (category names may differ between local subcategory and cloud)
             if (pushedToCloudRef.current.has(n.id)) {
-              const oldCat = prev.categories.find((c) => c.id === n.categoryId)
-              const catName = oldCat?.name || ""
-              const hasDuplicateInCloud = notes.some(
-                (cn) => cn.text === n.text && prev.categories.find((c) => c.id === cn.categoryId)?.name === catName
-              )
+              const hasDuplicateInCloud = notes.some((cn) => cn.text === n.text)
               if (hasDuplicateInCloud) return false
             }
             return true
@@ -115,11 +124,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
           .filter((r) => {
             if (cloudReminderIds.has(r.id)) return false
             if (pushedToCloudRef.current.has(r.id)) {
-              const oldCat = prev.categories.find((c) => c.id === r.categoryId)
-              const catName = oldCat?.name || ""
-              const hasDuplicateInCloud = reminders.some(
-                (cr) => cr.text === r.text && prev.categories.find((c) => c.id === cr.categoryId)?.name === catName
-              )
+              // Match by text only (category names may differ)
+              const hasDuplicateInCloud = reminders.some((cr) => cr.text === r.text)
               if (hasDuplicateInCloud) return false
             }
             return true
@@ -167,15 +173,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }
   }, [toast])
 
-  // Update ref with the actual syncWithCloud function
+  // Update ref with the actual syncWithCloud function (no auto-sync on mount)
   useEffect(() => {
     syncFunctionRef.current = syncWithCloud
-
-    if (!mounted) return
-
-    // Sync immediately on mount to get latest data from cloud
-    syncWithCloud(false)
-  }, [mounted, syncWithCloud])
+  }, [syncWithCloud])
 
   // Push single note to cloud — guarded by ref so it only fires once per ID even in StrictMode
   const pushNoteToCloud = useCallback(async (localId: string, note: Note, categoryName: string) => {
@@ -299,6 +300,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
       setState((prev) => {
         const category = prev.categories.find((c) => c.id === note.categoryId)
+        console.log("[v0] addNote - categoryId:", note.categoryId, "found:", category?.name, "all cats:", prev.categories.map(c => c.name))
         if (category) {
           // Guard inside pushNoteToCloud ensures this only fires once even if setState runs twice
           pushNoteToCloud(newNote.id, newNote, category.name)
