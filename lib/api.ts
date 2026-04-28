@@ -36,8 +36,11 @@ async function fetchApiPost<T>(action: string, data: unknown): Promise<T> {
 
 export interface ApiNote {
   id: string
-  content: string
-  category: string
+  content?: string
+  text?: string
+  category?: string
+  categoryId?: string
+  categoryName?: string
   tags: string[]
   createdAt: string
   updatedAt: string
@@ -45,10 +48,15 @@ export interface ApiNote {
 
 export interface ApiReminder {
   id: string
-  title: string
-  category: string
-  date: string
-  time: string
+  title?: string
+  text?: string
+  category?: string
+  categoryId?: string
+  categoryName?: string
+  date?: string
+  dueDate?: string
+  time?: string
+  dueTime?: string
   completed: boolean
   createdAt: string
   updatedAt: string
@@ -149,4 +157,33 @@ export const api = {
   }> {
     return fetchApiGet("exportAll")
   },
+
+  // History
+  async getHistory(params?: { type?: string; itemId?: string; limit?: number }): Promise<ApiHistoryRecord[]> {
+    const p: Record<string, string> = {}
+    if (params?.type)  p.type   = params.type
+    if (params?.itemId) p.itemId = params.itemId
+    if (params?.limit)  p.limit  = String(params.limit)
+    return fetchApiGet("getHistory", p)
+  },
+
+  async deleteHistory(id: string): Promise<{ success: boolean; error?: string }> {
+    return fetchApiGet("deleteHistory", { id })
+  },
+
+  async clearHistory(): Promise<{ success: boolean; error?: string }> {
+    return fetchApiGet("clearHistory")
+  },
+}
+
+export interface ApiHistoryRecord {
+  id: string
+  timestamp: string
+  type: string
+  itemId: string
+  action: string
+  fieldModified: string
+  oldValue: unknown
+  newValue: unknown
+  details: string
 }

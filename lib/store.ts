@@ -90,7 +90,7 @@ export function getInitialState(): AppState {
         })),
         selectedCategoryId: null,
         searchQuery: "",
-        syncStatus: "idle",
+        syncStatus: "syncing",
         lastSyncedAt: data.lastSyncedAt ? new Date(data.lastSyncedAt) : null,
         syncError: null,
       }
@@ -105,7 +105,7 @@ export function getInitialState(): AppState {
     reminders: [],
     selectedCategoryId: null,
     searchQuery: "",
-    syncStatus: "idle",
+    syncStatus: "syncing",
     lastSyncedAt: null,
     syncError: null,
   }
