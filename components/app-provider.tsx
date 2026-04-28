@@ -42,12 +42,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
         id: c.id,
         name: c.name,
         color: c.color,
+        parentId: c.parentId, // Come from Google Apps Script
       }))
 
-      // Merge cloud categories with local ones (subcategories like "3° 5" only exist locally)
+      // Merge cloud categories with local ones
       // Use a Map to avoid duplicates: cloud categories take precedence by name
       const categoryMap = new Map<string, Category>()
-      // Add local categories first (may include subcategories)
+      // Add local categories first
       for (const lc of state.categories) {
         categoryMap.set(lc.name.toLowerCase().trim(), lc)
       }
@@ -76,8 +77,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         cloudNoteIds.add(n.id)
         return {
           id: n.id,
-          text: n.content,
-          categoryId: resolveId(n.category),
+          text: n.content || n.text || "",
+          categoryId: resolveId(n.category || n.categoryName || ""),
           tags: n.tags || [],
           createdAt: new Date(n.createdAt),
           updatedAt: new Date(n.updatedAt),
@@ -88,13 +89,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const reminders: Reminder[] = (Array.isArray(cloudReminders) ? cloudReminders : []).map((r) => {
         cloudReminderIds.add(r.id)
         // date comes as full ISO string from GAS (e.g. "2026-04-28T03:00:00.000Z")
-        const dueDateParsed = new Date(r.date)
+        const dueDateParsed = new Date(r.date || r.dueDate || "")
         const dueDateFinal = isNaN(dueDateParsed.getTime()) ? new Date() : dueDateParsed
         return {
           id: r.id,
-          text: r.title,
-          categoryId: resolveId(r.category),
+          text: r.title || r.text || "",
+          categoryId: resolveId(r.category || r.categoryName || ""),
           dueDate: dueDateFinal,
+          dueTime: r.time || r.dueTime,
           completed: r.completed,
           createdAt: new Date(r.createdAt),
         }
@@ -173,10 +175,25 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }
   }, [toast])
 
-  // Update ref with the actual syncWithCloud function (no auto-sync on mount)
+  // Update ref with the actual syncWithCloud function
   useEffect(() => {
     syncFunctionRef.current = syncWithCloud
   }, [syncWithCloud])
+
+  // Auto-sync on mount and set up periodic sync every 30 seconds
+  useEffect(() => {
+    if (!mounted) return
+    
+    // Initial sync (silent, no toast)
+    syncWithCloud(false)
+    
+    // Periodic sync every 30 seconds to keep data fresh
+    const syncInterval = setInterval(() => {
+      syncWithCloud(false)
+    }, 30000)
+    
+    return () => clearInterval(syncInterval)
+  }, [mounted, syncWithCloud])
 
   // Push single note to cloud — guarded by ref so it only fires once per ID even in StrictMode
   const pushNoteToCloud = useCallback(async (localId: string, note: Note, categoryName: string) => {
@@ -300,7 +317,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
       setState((prev) => {
         const category = prev.categories.find((c) => c.id === note.categoryId)
-        console.log("[v0] addNote - categoryId:", note.categoryId, "found:", category?.name, "all cats:", prev.categories.map(c => c.name))
         if (category) {
           // Guard inside pushNoteToCloud ensures this only fires once even if setState runs twice
           pushNoteToCloud(newNote.id, newNote, category.name)

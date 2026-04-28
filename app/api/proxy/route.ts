@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from "next/server"
 
+// Single source of truth for the Google Apps Script URL
 const GAS_URL =
-  "https://script.google.com/macros/s/AKfycbzcE7XMkAsafYtV70D-J4CtpPBQdj0h8mivvw7_vWeV5oMnjKT-c6tiLkyNN-QdAsFz/exec"
+  process.env.NEXT_PUBLIC_GOOGLE_APPS_SCRIPT_URL ||
+  "https://script.google.com/macros/s/AKfycbwY5sxCw88hXUvsHul3RC21oknXuXE-4B5RS5K_N6d6CJ1oAwg3p4Z5E4eQNDtRYR-6/exec"
 
+/**
+ * Proxy to Google Apps Script
+ * All API calls go through this endpoint to avoid CORS issues
+ */
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const params = new URLSearchParams()
@@ -13,13 +19,28 @@ export async function GET(request: NextRequest) {
 
   const targetUrl = `${GAS_URL}?${params.toString()}`
 
-  const response = await fetch(targetUrl, {
-    method: "GET",
-    redirect: "follow",
-  })
+  try {
+    const response = await fetch(targetUrl, {
+      method: "GET",
+      redirect: "follow",
+    })
 
-  const data = await response.json()
-  return NextResponse.json(data)
+    if (!response.ok) {
+      return NextResponse.json(
+        { error: `Google Apps Script returned ${response.status}` },
+        { status: response.status }
+      )
+    }
+
+    const data = await response.json()
+    return NextResponse.json(data)
+  } catch (error) {
+    console.error("[GAS Proxy] GET error:", error)
+    return NextResponse.json(
+      { error: "Failed to connect to Google Apps Script" },
+      { status: 500 }
+    )
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -33,15 +54,30 @@ export async function POST(request: NextRequest) {
   const body = await request.text()
   const targetUrl = `${GAS_URL}?${params.toString()}`
 
-  const response = await fetch(targetUrl, {
-    method: "POST",
-    redirect: "follow",
-    headers: {
-      "Content-Type": "text/plain",
-    },
-    body,
-  })
+  try {
+    const response = await fetch(targetUrl, {
+      method: "POST",
+      redirect: "follow",
+      headers: {
+        "Content-Type": "text/plain",
+      },
+      body,
+    })
 
-  const data = await response.json()
-  return NextResponse.json(data)
+    if (!response.ok) {
+      return NextResponse.json(
+        { error: `Google Apps Script returned ${response.status}` },
+        { status: response.status }
+      )
+    }
+
+    const data = await response.json()
+    return NextResponse.json(data)
+  } catch (error) {
+    console.error("[GAS Proxy] POST error:", error)
+    return NextResponse.json(
+      { error: "Failed to connect to Google Apps Script" },
+      { status: 500 }
+    )
+  }
 }
