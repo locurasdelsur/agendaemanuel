@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server"
 // Single source of truth for the Google Apps Script URL
 const GAS_URL =
   process.env.NEXT_PUBLIC_GOOGLE_APPS_SCRIPT_URL ||
-  "https://script.google.com/macros/s/AKfycbwGDDzKqcUtj_Rgvl9heSfJkZiiGSXMURFuAA19OSTUw4GWL683VhSCI4eSSZJp8STx/exec"
+  "https://script.google.com/macros/s/AKfycbzmQKdUR0ZZlAbs94znoH-31AD8Fdccy_JJ47lobqg_hp-a5-s1LQggo7v_8-gRfUnl/exec"
 
 /**
  * Proxy to Google Apps Script

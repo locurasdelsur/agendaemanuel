@@ -37,37 +37,40 @@ export function AppProvider({ children }: { children: ReactNode }) {
         api.getCategories(),
       ])
 
-      // Build category list from cloud first (source of truth for IDs)
+      // Build category list from cloud — cloud is the source of truth for IDs and parentId
       const cloudCategoryList: Category[] = (Array.isArray(cloudCategories) ? cloudCategories : []).map((c) => ({
-        id: c.id,
-        name: c.name,
-        color: c.color,
-        parentId: c.parentId, // Come from Google Apps Script
+        id: String(c.id),
+        name: String(c.name),
+        color: String(c.color || "#6b7280"),
+        // parentId: treat empty string / null as undefined so the sidebar renders correctly
+        parentId: c.parentId && String(c.parentId).trim().length > 0 ? String(c.parentId) : undefined,
       }))
 
-      // Merge cloud categories with local ones
-      // Use a Map to avoid duplicates: cloud categories take precedence by name
+      // Use a Map keyed by cloud ID to guarantee no duplicates.
+      // Cloud categories fully replace same-named local ones.
       const categoryMap = new Map<string, Category>()
-      // Add local categories first
+      // Load local first (as fallback for offline-created ones)
       for (const lc of state.categories) {
-        categoryMap.set(lc.name.toLowerCase().trim(), lc)
+        categoryMap.set(lc.id, lc)
       }
-      // Overwrite with cloud categories (these have correct cloud IDs)
+      // Cloud overwrites by ID (authoritative)
       for (const cc of cloudCategoryList) {
-        categoryMap.set(cc.name.toLowerCase().trim(), cc)
+        categoryMap.set(cc.id, cc)
+        // Also overwrite any local entry that has the same name but a different local ID
+        for (const [key, val] of categoryMap.entries()) {
+          if (key !== cc.id && val.name.toLowerCase().trim() === cc.name.toLowerCase().trim()) {
+            categoryMap.delete(key)
+          }
+        }
       }
       const categories = Array.from(categoryMap.values())
 
-      // Helper: resolve a category name to an ID, falling back to "general"
+      // Helper: resolve a category NAME to its cloud ID.
+      // Only uses exact match — no partial matching that causes wrong assignments.
       const resolveId = (categoryName: string): string => {
         const lower = (categoryName || "").toLowerCase().trim()
-        // Try exact match first
         const exact = categories.find((c) => c.name.toLowerCase().trim() === lower)
         if (exact) return exact.id
-        // Try partial match
-        const partial = categories.find((c) => c.name.toLowerCase().includes(lower) || lower.includes(c.name.toLowerCase()))
-        if (partial) return partial.id
-        // Fall back to the "general" category id (by name)
         return categories.find((c) => c.name.toLowerCase() === "general")?.id ?? "general"
       }
 
@@ -148,14 +151,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
             return { ...r, categoryId: oldCat ? resolveId(oldCat.name) : resolveId("") }
           })
 
-        // Keep sub-categories (parentId set) from prev since GAS doesn't know about them
-        const subCategories = prev.categories.filter((c) => c.parentId)
-
         return {
           ...prev,
           notes: [...notes, ...localOnlyNotes],
           reminders: [...reminders, ...localOnlyReminders],
-          categories: categories.length > 0 ? [...categories, ...subCategories] : prev.categories,
+          // Cloud categories already include subcategories (parentId set from GAS).
+          // No need to separately keep local sub-categories — that's what caused duplicates.
+          categories: categories.length > 0 ? categories : prev.categories,
           syncStatus: "success" as SyncStatus,
           lastSyncedAt: new Date(),
           syncError: null,
@@ -263,8 +265,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
       ...prev,
       categories: [...prev.categories, newCategory],
     }))
-    // Push to cloud
-    api.addCategory({ name: category.name, color: category.color }).catch(() => {})
+    // Push to cloud — include parentId so subcategories are stored correctly in GAS
+    api.addCategory({
+      name: category.name,
+      color: category.color,
+      parentId: category.parentId,
+    }).catch(() => {})
   }, [])
 
   const updateCategory = useCallback((id: string, updates: Partial<Category>) => {
