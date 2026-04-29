@@ -42,6 +42,7 @@ export interface ApiNote {
   categoryId?: string
   categoryName?: string
   tags: string[]
+  mainTag?: string
   createdAt: string
   updatedAt: string
 }
@@ -90,11 +91,11 @@ export const api = {
     return fetchApiGet("getNotes", params)
   },
 
-  async addNote(note: { content: string; category: string; tags: string[] }): Promise<{ success: boolean; data?: { note: ApiNote }; error?: string }> {
+  async addNote(note: { content: string; category: string; tags: string[]; mainTag?: string }): Promise<{ success: boolean; data?: { note: ApiNote }; error?: string }> {
     return fetchApiPost("addNote", note)
   },
 
-  async updateNote(note: { id: string; content: string; category: string; tags: string[] }): Promise<{ success: boolean; error?: string }> {
+  async updateNote(note: { id: string; content: string; category: string; tags: string[]; mainTag?: string }): Promise<{ success: boolean; error?: string }> {
     return fetchApiPost("updateNote", note)
   },
 

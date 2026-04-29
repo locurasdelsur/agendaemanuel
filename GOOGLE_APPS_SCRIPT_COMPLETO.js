@@ -89,7 +89,7 @@ function initializeNotesSheet(ss) {
   ss = ss || SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheet = ss.getSheetByName(SHEET_NAMES.NOTES);
   if (sheet.getLastRow() === 0) {
-    sheet.appendRow(["ID", "Contenido", "Categoría", "ID Categoría", "Etiquetas", "URL Adjunto", "Fecha Creación", "Fecha Modificación"]);
+    sheet.appendRow(["ID", "Contenido", "Categoría", "ID Categoría", "Etiquetas", "Etiqueta Principal", "URL Adjunto", "Fecha Creación", "Fecha Modificación"]);
   }
 }
 
@@ -215,6 +215,16 @@ function getNotes(category) {
     const row = data[i];
     // Filtrar por nombre de categoría si se indicó
     if (category && row[2] !== category) continue;
+    
+    // Parse tags: split by comma, trim, filter empty strings
+    let tags = [];
+    if (row[4] && String(row[4]).trim().length > 0) {
+      tags = String(row[4])
+        .split(",")
+        .map(function(t) { return t.trim(); })
+        .filter(function(t) { return t.length > 0; });
+    }
+    
     out.push({
       id:            row[0],
       content:       row[1],
@@ -222,41 +232,64 @@ function getNotes(category) {
       category:      row[2],
       categoryName:  row[2],
       categoryId:    row[3],
-      tags:          row[4] ? String(row[4]).split(",").map(function(t) { return t.trim(); }) : [],
-      attachmentUrl: row[5] || "",
-      createdAt:     row[6],
-      updatedAt:     row[7]
+      tags:          tags,
+      mainTag:       row[5] || undefined,
+      attachmentUrl: row[6] || "",
+      createdAt:     row[7],
+      updatedAt:     row[8]
     });
   }
   return out;
 }
 
-function addNote(content, category, categoryId, tags) {
+function addNote(content, category, categoryId, tags, mainTag) {
   const ss    = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheet = ss.getSheetByName(SHEET_NAMES.NOTES);
   const id    = Utilities.getUuid();
   const now   = new Date().toISOString();
-  const tagsStr = Array.isArray(tags) ? tags.join(",") : (tags || "");
-  sheet.appendRow([id, content, category || "General", categoryId || "", tagsStr, "", now, now]);
+  
+  // Clean and filter tags: remove empty strings and trim whitespace
+  let cleanTags = [];
+  if (Array.isArray(tags)) {
+    cleanTags = tags
+      .map(function(t) { return String(t).trim(); })
+      .filter(function(t) { return t.length > 0; });
+  }
+  const tagsStr = cleanTags.join(",");
+  const mainTagStr = mainTag || "";
+  
+  sheet.appendRow([id, content, category || "General", categoryId || "", tagsStr, mainTagStr, "", now, now]);
   logHistory("note", id, "create", "Contenido", null, content, "Nota creada en: " + (category || "General"));
   return {
     success: true,
-    data: { note: { id, content, text: content, category, categoryId, tags: tags || [], createdAt: now, updatedAt: now } }
+    data: { note: { id, content, text: content, category, categoryId, tags: cleanTags, mainTag: mainTag || undefined, createdAt: now, updatedAt: now } }
   };
 }
 
-function updateNote(id, content, category, categoryId, tags) {
+function updateNote(id, content, category, categoryId, tags, mainTag) {
   const ss    = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheet = ss.getSheetByName(SHEET_NAMES.NOTES);
   const data  = sheet.getDataRange().getValues();
   for (let i = 1; i < data.length; i++) {
     if (data[i][0] === id) {
       const old = data[i][1];
+      
+      // Clean and filter tags: remove empty strings and trim whitespace
+      let cleanTags = [];
+      if (Array.isArray(tags)) {
+        cleanTags = tags
+          .map(function(t) { return String(t).trim(); })
+          .filter(function(t) { return t.length > 0; });
+      }
+      const tagsStr = cleanTags.join(",");
+      const mainTagStr = mainTag || "";
+      
       sheet.getRange(i + 1, 2).setValue(content);
       sheet.getRange(i + 1, 3).setValue(category || data[i][2]);
       sheet.getRange(i + 1, 4).setValue(categoryId || data[i][3]);
-      sheet.getRange(i + 1, 5).setValue(Array.isArray(tags) ? tags.join(",") : (tags || ""));
-      sheet.getRange(i + 1, 8).setValue(new Date().toISOString());
+      sheet.getRange(i + 1, 5).setValue(tagsStr);
+      sheet.getRange(i + 1, 6).setValue(mainTagStr);
+      sheet.getRange(i + 1, 9).setValue(new Date().toISOString());
       logHistory("note", id, "update", "Contenido", old, content);
       return { success: true };
     }
@@ -523,8 +556,16 @@ function importAll(importData) {
           var text  = note.content || note.text || "";
           var cat   = note.category || note.categoryName || "General";
           var catId = note.categoryId || "";
-          var tags  = Array.isArray(note.tags) ? note.tags.join(",") : (note.tags || "");
-          sheet.appendRow([note.id, text, cat, catId, tags, "", note.createdAt || new Date().toISOString(), note.updatedAt || new Date().toISOString()]);
+          // Clean and filter tags: remove empty strings and trim whitespace
+          var cleanTags = [];
+          if (Array.isArray(note.tags)) {
+            cleanTags = note.tags
+              .map(function(t) { return String(t).trim(); })
+              .filter(function(t) { return t.length > 0; });
+          }
+          var tags = cleanTags.join(",");
+          var mainTagVal = (note.mainTag && String(note.mainTag).trim().length > 0) ? String(note.mainTag).trim() : "";
+          sheet.appendRow([note.id, text, cat, catId, tags, mainTagVal, "", note.createdAt || new Date().toISOString(), note.updatedAt || new Date().toISOString()]);
           logHistory("note", note.id, "import", "Contenido", null, text);
           imported++;
         } catch(e) { errors.push("Nota: " + e.message); }
@@ -644,12 +685,13 @@ function doPost(e) {
 
       // ── Notas ──
       case "addNote":
-        // Aceptar tanto { content, category, tags } como { text, categoryName, tags }
+        // Aceptar tanto { content, category, tags, mainTag } como { text, categoryName, tags }
         return jsonResponse(addNote(
           body.content || body.text || "",
           body.category || body.categoryName || "General",
           body.categoryId || "",
-          body.tags || []
+          body.tags || [],
+          body.mainTag || ""
         ));
 
       case "updateNote":
@@ -658,7 +700,8 @@ function doPost(e) {
           body.content || body.text || "",
           body.category || body.categoryName || "General",
           body.categoryId || "",
-          body.tags || []
+          body.tags || [],
+          body.mainTag || ""
         ));
 
       // ── Recordatorios ──

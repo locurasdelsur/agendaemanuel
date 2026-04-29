@@ -10,6 +10,7 @@ export interface Note {
   text: string
   categoryId: string
   tags: string[]
+  mainTag?: string // Etiqueta principal (destacada)
   attachmentUrl?: string
   createdAt: Date
   updatedAt: Date
