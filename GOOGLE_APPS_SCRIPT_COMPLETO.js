@@ -147,14 +147,17 @@ function getCategories() {
   const out   = [];
   for (let i = 1; i < data.length; i++) {
     const row = data[i];
+    if (!row[0]) continue; // skip empty rows
+    // parentId: only set when the cell has a real non-empty value
+    const rawParent = String(row[4] || "").trim();
     out.push({
-      id:        row[0],
-      name:      row[1],
-      color:     row[2],
+      id:        String(row[0]),
+      name:      String(row[1]),
+      color:     String(row[2] || "#6b7280"),
       isSystem:  row[3] === true || row[3] === "TRUE",
-      parentId:  row[4] || null,
-      createdAt: row[5],
-      updatedAt: row[6]
+      parentId:  rawParent.length > 0 ? rawParent : null,
+      createdAt: row[5] || new Date().toISOString(),
+      updatedAt: row[6] || new Date().toISOString()
     });
   }
   return out;
@@ -205,91 +208,133 @@ function deleteCategory(id) {
 
 // ============================================================
 // NOTAS
+// Columnas nuevas (9):  ID | Contenido | Categoría | ID Cat | Etiquetas | Etiqueta Principal | URL | Creación | Modificación
+// Columnas viejas (8):  ID | Contenido | Categoría | ID Cat | Etiquetas | URL | Creación | Modificación
+// getNotesColumns() detecta cuál formato tiene el sheet en base al header.
 // ============================================================
-function getNotes(category) {
-  const ss    = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const sheet = ss.getSheetByName(SHEET_NAMES.NOTES);
-  const data  = sheet.getDataRange().getValues();
-  const out   = [];
-  for (let i = 1; i < data.length; i++) {
-    const row = data[i];
-    // Filtrar por nombre de categoría si se indicó
-    if (category && row[2] !== category) continue;
-    
-    // Parse tags: split by comma, trim, filter empty strings
-    let tags = [];
-    if (row[4] && String(row[4]).trim().length > 0) {
-      tags = String(row[4])
-        .split(",")
-        .map(function(t) { return t.trim(); })
-        .filter(function(t) { return t.length > 0; });
+
+function getNotesColumns(headerRow) {
+  // headerRow is data[0] (the first row, 0-indexed array)
+  // Returns an object with 0-based column indices for each field.
+  var hasMainTag = false;
+  for (var i = 0; i < headerRow.length; i++) {
+    var h = String(headerRow[i] || "").toLowerCase();
+    if (h.indexOf("principal") !== -1 || h.indexOf("maintag") !== -1) {
+      hasMainTag = true;
+      break;
     }
-    
+  }
+  if (hasMainTag) {
+    // New format: 9 columns
+    return { id:0, content:1, category:2, categoryId:3, tags:4, mainTag:5, url:6, createdAt:7, updatedAt:8, total:9 };
+  } else {
+    // Old format: 8 columns — mainTag does not exist
+    return { id:0, content:1, category:2, categoryId:3, tags:4, mainTag:-1, url:5, createdAt:6, updatedAt:7, total:8 };
+  }
+}
+
+// Migrate old 8-column notes sheet to new 9-column format (inserts "Etiqueta Principal" column)
+function migrateNotesSheet() {
+  var ss    = SpreadsheetApp.openById(SPREADSHEET_ID);
+  var sheet = ss.getSheetByName(SHEET_NAMES.NOTES);
+  var data  = sheet.getDataRange().getValues();
+  if (data.length === 0) return { success: true, message: "Hoja vacía" };
+  var cols = getNotesColumns(data[0]);
+  if (cols.mainTag !== -1) return { success: true, message: "Ya está en formato nuevo" };
+  // Insert new column at position 6 (after tags col 5, before url col 6)
+  sheet.insertColumnAfter(5); // inserts after column E (index 4 = 5th col)
+  sheet.getRange(1, 6).setValue("Etiqueta Principal");
+  return { success: true, message: "Migración completada: columna 'Etiqueta Principal' agregada" };
+}
+
+function getNotes(category) {
+  var ss    = SpreadsheetApp.openById(SPREADSHEET_ID);
+  var sheet = ss.getSheetByName(SHEET_NAMES.NOTES);
+  var data  = sheet.getDataRange().getValues();
+  var out   = [];
+  if (data.length < 2) return out;
+  
+  var cols = getNotesColumns(data[0]);
+
+  for (var i = 1; i < data.length; i++) {
+    var row = data[i];
+    if (!row[cols.id]) continue; // skip empty rows
+    if (category && String(row[cols.category]) !== String(category)) continue;
+
+    // Parse tags — always return a clean array
+    var tags = parseTags(row[cols.tags]);
+
+    // mainTag — only if column exists and has value
+    var mainTagVal = undefined;
+    if (cols.mainTag >= 0) {
+      var rawMain = String(row[cols.mainTag] || "").trim();
+      if (rawMain.length > 0) mainTagVal = rawMain;
+    }
+
     out.push({
-      id:            row[0],
-      content:       row[1],
-      text:          row[1],
-      category:      row[2],
-      categoryName:  row[2],
-      categoryId:    row[3],
+      id:            String(row[cols.id]),
+      content:       String(row[cols.content]),
+      text:          String(row[cols.content]),
+      category:      String(row[cols.category]),
+      categoryName:  String(row[cols.category]),
+      categoryId:    String(row[cols.categoryId]),
       tags:          tags,
-      mainTag:       row[5] || undefined,
-      attachmentUrl: row[6] || "",
-      createdAt:     row[7],
-      updatedAt:     row[8]
+      mainTag:       mainTagVal,
+      attachmentUrl: cols.url >= 0 ? (String(row[cols.url] || "")) : "",
+      createdAt:     row[cols.createdAt] || new Date().toISOString(),
+      updatedAt:     row[cols.updatedAt] || new Date().toISOString()
     });
   }
   return out;
 }
 
 function addNote(content, category, categoryId, tags, mainTag) {
-  const ss    = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const sheet = ss.getSheetByName(SHEET_NAMES.NOTES);
-  const id    = Utilities.getUuid();
-  const now   = new Date().toISOString();
-  
-  // Clean and filter tags: remove empty strings and trim whitespace
-  let cleanTags = [];
-  if (Array.isArray(tags)) {
-    cleanTags = tags
-      .map(function(t) { return String(t).trim(); })
-      .filter(function(t) { return t.length > 0; });
+  var ss    = SpreadsheetApp.openById(SPREADSHEET_ID);
+  var sheet = ss.getSheetByName(SHEET_NAMES.NOTES);
+  var id    = Utilities.getUuid();
+  var now   = new Date().toISOString();
+  var data  = sheet.getDataRange().getValues();
+  var cols  = data.length > 0 ? getNotesColumns(data[0]) : { mainTag: 5, total: 9 };
+
+  var cleanTags  = parseTags(tags);
+  var tagsStr    = cleanTags.join(",");
+  var mainTagStr = (mainTag && String(mainTag).trim().length > 0) ? String(mainTag).trim() : "";
+
+  if (cols.mainTag >= 0) {
+    // New 9-column format
+    sheet.appendRow([id, content, category || "General", categoryId || "", tagsStr, mainTagStr, "", now, now]);
+  } else {
+    // Old 8-column format (no mainTag column yet — migrate first)
+    sheet.appendRow([id, content, category || "General", categoryId || "", tagsStr, "", now, now]);
   }
-  const tagsStr = cleanTags.join(",");
-  const mainTagStr = mainTag || "";
-  
-  sheet.appendRow([id, content, category || "General", categoryId || "", tagsStr, mainTagStr, "", now, now]);
   logHistory("note", id, "create", "Contenido", null, content, "Nota creada en: " + (category || "General"));
   return {
     success: true,
-    data: { note: { id, content, text: content, category, categoryId, tags: cleanTags, mainTag: mainTag || undefined, createdAt: now, updatedAt: now } }
+    data: { note: { id, content, text: content, category, categoryId, tags: cleanTags, mainTag: mainTagStr || undefined, createdAt: now, updatedAt: now } }
   };
 }
 
 function updateNote(id, content, category, categoryId, tags, mainTag) {
-  const ss    = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const sheet = ss.getSheetByName(SHEET_NAMES.NOTES);
-  const data  = sheet.getDataRange().getValues();
-  for (let i = 1; i < data.length; i++) {
-    if (data[i][0] === id) {
-      const old = data[i][1];
+  var ss    = SpreadsheetApp.openById(SPREADSHEET_ID);
+  var sheet = ss.getSheetByName(SHEET_NAMES.NOTES);
+  var data  = sheet.getDataRange().getValues();
+  if (data.length === 0) return { success: false, error: "Hoja vacía" };
+  var cols = getNotesColumns(data[0]);
+  
+  for (var i = 1; i < data.length; i++) {
+    if (String(data[i][cols.id]) === String(id)) {
+      var old       = data[i][cols.content];
+      var cleanTags = parseTags(tags);
+      var tagsStr   = cleanTags.join(",");
       
-      // Clean and filter tags: remove empty strings and trim whitespace
-      let cleanTags = [];
-      if (Array.isArray(tags)) {
-        cleanTags = tags
-          .map(function(t) { return String(t).trim(); })
-          .filter(function(t) { return t.length > 0; });
+      sheet.getRange(i + 1, cols.content  + 1).setValue(content);
+      sheet.getRange(i + 1, cols.category + 1).setValue(category || data[i][cols.category]);
+      sheet.getRange(i + 1, cols.tags     + 1).setValue(tagsStr);
+      if (cols.mainTag >= 0) {
+        var mainTagStr = (mainTag && String(mainTag).trim().length > 0) ? String(mainTag).trim() : "";
+        sheet.getRange(i + 1, cols.mainTag + 1).setValue(mainTagStr);
       }
-      const tagsStr = cleanTags.join(",");
-      const mainTagStr = mainTag || "";
-      
-      sheet.getRange(i + 1, 2).setValue(content);
-      sheet.getRange(i + 1, 3).setValue(category || data[i][2]);
-      sheet.getRange(i + 1, 4).setValue(categoryId || data[i][3]);
-      sheet.getRange(i + 1, 5).setValue(tagsStr);
-      sheet.getRange(i + 1, 6).setValue(mainTagStr);
-      sheet.getRange(i + 1, 9).setValue(new Date().toISOString());
+      sheet.getRange(i + 1, cols.updatedAt + 1).setValue(new Date().toISOString());
       logHistory("note", id, "update", "Contenido", old, content);
       return { success: true };
     }
@@ -656,6 +701,9 @@ function doGet(e) {
 
       case "initializeSheets":
         return jsonResponse(initializeSheets());
+
+      case "migrateNotesSheet":
+        return jsonResponse(migrateNotesSheet());
 
       default:
         return jsonResponse({ success: false, error: "Acción no reconocida: " + action });

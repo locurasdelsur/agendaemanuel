@@ -69,6 +69,7 @@ export interface ApiCategory {
   name: string
   color: string
   isSystem: boolean
+  parentId?: string
 }
 
 export interface ApiStats {
@@ -132,7 +133,7 @@ export const api = {
     return fetchApiGet("getCategories")
   },
 
-  async addCategory(category: { name: string; color: string }): Promise<{ success: boolean; data?: { category: ApiCategory }; error?: string }> {
+  async addCategory(category: { name: string; color: string; parentId?: string }): Promise<{ success: boolean; data?: { category: ApiCategory }; error?: string }> {
     return fetchApiPost("addCategory", category)
   },
 
