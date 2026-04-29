@@ -35,7 +35,11 @@ export function QuickAdd() {
         completed: false,
       })
     } else {
-      const tags = text.match(/#\w+/g)?.map((t) => t.slice(1)) || []
+      // Extract tags from #hashtags, filter duplicates and empty strings
+      const tagsSet = new Set(
+        text.match(/#\w+/g)?.map((t) => t.slice(1).toLowerCase()) || []
+      )
+      const tags = Array.from(tagsSet).filter((t) => t.length > 0)
       addNote({
         text: text.trim(),
         categoryId,

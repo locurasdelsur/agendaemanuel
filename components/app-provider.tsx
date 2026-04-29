@@ -75,11 +75,22 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const cloudNoteIds = new Set<string>()
       const notes: Note[] = (Array.isArray(cloudNotes) ? cloudNotes : []).map((n) => {
         cloudNoteIds.add(n.id)
+        // Parse tags — always return a clean array, never undefined
+        const rawTags: unknown = n.tags
+        let parsedTags: string[] = []
+        if (Array.isArray(rawTags)) {
+          parsedTags = rawTags
+            .map((t) => String(t).trim())
+            .filter((t) => t.length > 0)
+        } else if (typeof rawTags === "string" && rawTags.trim().length > 0) {
+          parsedTags = rawTags.split(",").map((t) => t.trim()).filter((t) => t.length > 0)
+        }
         return {
           id: n.id,
           text: n.content || n.text || "",
           categoryId: resolveId(n.category || n.categoryName || ""),
-          tags: n.tags || [],
+          tags: parsedTags,
+          mainTag: n.mainTag && String(n.mainTag).trim().length > 0 ? String(n.mainTag).trim() : undefined,
           createdAt: new Date(n.createdAt),
           updatedAt: new Date(n.updatedAt),
         }
@@ -204,6 +215,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         content: note.text,
         category: categoryName,
         tags: note.tags,
+        mainTag: note.mainTag,
       })
       // Replace the temporary local ID with the real cloud ID to prevent duplicates on next sync
       const cloudId = result?.data?.note?.id ?? result?.id
@@ -340,6 +352,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
               content: updated.text,
               category: category.name,
               tags: updated.tags,
+              mainTag: updated.mainTag,
             })
             .catch(() => {})
         }
@@ -436,14 +449,24 @@ export function AppProvider({ children }: { children: ReactNode }) {
         color: c.color,
       }))
 
-      const historicalNotes: Note[] = (data.notes || []).map((n: Note) => ({
-        id: n.id,
-        text: n.text,
-        categoryId: n.categoryId,
-        tags: n.tags || [],
-        createdAt: new Date(n.createdAt),
-        updatedAt: new Date(n.updatedAt),
-      }))
+      const historicalNotes: Note[] = (data.notes || []).map((n: Note & { content?: string; mainTag?: string }) => {
+        const rawTags: unknown = n.tags
+        let parsedTags: string[] = []
+        if (Array.isArray(rawTags)) {
+          parsedTags = rawTags.map((t) => String(t).trim()).filter((t) => t.length > 0)
+        } else if (typeof rawTags === "string" && rawTags.trim().length > 0) {
+          parsedTags = rawTags.split(",").map((t) => t.trim()).filter((t) => t.length > 0)
+        }
+        return {
+          id: n.id,
+          text: n.text || n.content || "",
+          categoryId: n.categoryId,
+          tags: parsedTags,
+          mainTag: n.mainTag && String(n.mainTag).trim().length > 0 ? String(n.mainTag).trim() : undefined,
+          createdAt: new Date(n.createdAt),
+          updatedAt: new Date(n.updatedAt),
+        }
+      })
 
       // Push new historical notes to GAS (so they appear in Google Sheets)
       let pushed = 0
@@ -460,6 +483,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
             content: n.text,
             category: catName,
             tags: n.tags,
+            mainTag: n.mainTag,
           }).catch(() => {})
           pushed++
         })
